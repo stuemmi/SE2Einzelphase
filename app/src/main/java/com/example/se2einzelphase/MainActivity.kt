@@ -13,6 +13,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.se2einzelphase.ui.theme.SE2EinzelphaseTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +34,9 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppContent(modifier: Modifier = Modifier) {
+    var serverResponse by remember { mutableStateOf<String?>(null) }
+    var input by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,9 +46,8 @@ fun AppContent(modifier: Modifier = Modifier) {
     ) {
         TopAppBar(
             title = { Text("NetworkTest") }
-
-
         )
+
         Column (
             modifier = Modifier
                 .fillMaxSize()
@@ -49,9 +55,8 @@ fun AppContent(modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
             Text("Gib deine Matrikelnummer ein:")
-            var input by remember { mutableStateOf("") }
+
             OutlinedTextField(
                 value = input,
                 onValueChange = { newInput ->
@@ -62,7 +67,15 @@ fun AppContent(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth()
                     .padding(0.dp, 16.dp)
             )
-            Button(onClick = { /* Handle click */ }) {
+
+            Button(onClick = {
+                serverResponse = null;
+                CoroutineScope(Dispatchers.Main).launch {
+                   //Todo add button on click
+                }
+
+            /* Handle click */
+            }) {
                 Text("Abschicken")
             }
         }
