@@ -1,6 +1,7 @@
 package com.example.se2einzelphase
 
 import android.os.Bundle
+import android.widget.Space
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.se2einzelphase.network.sendAndReceiveTCP
 import com.example.se2einzelphase.ui.theme.SE2EinzelphaseTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,11 +33,17 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+fun calculateCrossSumAsBinary(number: String): String {
+    val sum = number.filter { it.isDigit() }.sumOf { it.toString().toInt() }
+    return sum.toString(2) // Convert the sum to a binary string
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppContent(modifier: Modifier = Modifier) {
     var serverResponse by remember { mutableStateOf<String?>(null) }
     var input by remember { mutableStateOf("") }
+    val crossSumBinary = calculateCrossSumAsBinary(input)
 
     Column(
         modifier = Modifier
@@ -69,15 +77,21 @@ fun AppContent(modifier: Modifier = Modifier) {
             )
 
             Button(onClick = {
-                serverResponse = null;
                 CoroutineScope(Dispatchers.Main).launch {
-                   //Todo add button on click
+                   serverResponse = sendAndReceiveTCP(input)
                 }
 
-            /* Handle click */
             }) {
                 Text("Abschicken")
             }
+
+            Text("Serverantwort:")
+
+            serverResponse?.let {
+                Text(text = serverResponse!!, modifier = Modifier.padding(top = 8.dp))
+            }
+
+            Text("Quersumme (Binary): $crossSumBinary", Modifier.padding(top = 8.dp))
         }
     }
 }
