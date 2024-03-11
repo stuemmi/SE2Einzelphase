@@ -18,8 +18,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SE2EinzelphaseTheme {
-                // A surface container using the 'background' color from the theme
+            SE2EinzelphaseTheme() {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     AppContent()
                 }
@@ -40,6 +39,8 @@ fun AppContent(modifier: Modifier = Modifier) {
     ) {
         TopAppBar(
             title = { Text("NetworkTest") }
+
+
         )
         Column (
             modifier = Modifier
@@ -61,7 +62,6 @@ fun AppContent(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth()
                     .padding(0.dp, 16.dp)
             )
-            Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = { /* Handle click */ }) {
                 Text("Abschicken")
             }
