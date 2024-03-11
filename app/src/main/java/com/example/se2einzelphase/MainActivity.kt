@@ -85,11 +85,8 @@ fun AppContent(modifier: Modifier = Modifier) {
                 Text("Abschicken")
             }
 
-            Text("Serverantwort:")
+            Text("Serverantwort: $serverResponse")
 
-            serverResponse?.let {
-                Text(text = serverResponse!!, modifier = Modifier.padding(top = 8.dp))
-            }
 
             Text("Quersumme (Binary): $crossSumBinary", Modifier.padding(top = 8.dp))
         }
